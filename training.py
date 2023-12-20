@@ -1,12 +1,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense
-import time
 
 # Load the data
 file_path = 'data.csv'
@@ -28,25 +25,27 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# Build a simple neural network model
+# Build a more complex neural network model
 model = Sequential()
-model.add(Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
+model.add(Dense(128, activation='relu', input_shape=(X_train.shape[1],)))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(Dense(64, activation='relu'))
+model.add(tf.keras.layers.BatchNormalization())
 model.add(Dense(32, activation='relu'))
+model.add(tf.keras.layers.BatchNormalization())
 model.add(Dense(len(le.classes_), activation='softmax'))
 
-# Compile the model
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+# Compile the model with a lower learning rate
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-# Train the model
-model.fit(X_train_scaled, y_train, epochs=20, batch_size=32, validation_split=0.2)
+# Train the model for more epochs
+model.fit(X_train_scaled, y_train, epochs=50, batch_size=32, validation_split=0.2)
 
 # Evaluate the model on the test set
 accuracy = model.evaluate(X_test_scaled, y_test)[1]
 print(f"Accuracy: {accuracy:.2f}")
 
 # Save the model
-# saved_model_path = "D:\Coding Folder\Capstone".format(int(time.time()))
-# tf.contrib.saved_model.saved_keras_model(model, saved_model_path)
 model.save('learning_style_model_tf.h5')
 print("Model saved as 'learning_style_model_tf.h5'")
 
