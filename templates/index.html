@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"> <!-- Add Poppins font -->
     <style>
         body {
-            background-color: #2c2c2c; /* Darker background color */
-            color: #fff; /* Text color */
+            background-color: #f9f9f9; /* Lighter background color */
+            color: #333; /* Text color */
             font-family: 'Poppins', sans-serif; /* Use Poppins font */
         }
 
         .container {
-            background-color: #333; /* Dark background color */
+            background-color: #fff; /* White background color */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             padding: 20px;
@@ -39,7 +39,7 @@
         }
 
         h1 {
-            color: #e50914; /* Netflix red color */
+            color: #f05454; /* Light Red color */
             font-weight: bold; /* Make the title bold */
             margin-bottom: 20px; /* Add space between the title and content */
             text-align: center; /* Center the title */
@@ -66,7 +66,7 @@
         #currentScores {
             list-style-type: none;
             padding: 0;
-            color: #ccc; /* Light text color for recommendation and scores */
+            color: #777; /* Light text color for recommendation and scores */
         }
 
         #recommendation li,
@@ -83,13 +83,13 @@
             <img class="cloudkids-logo" src="{{ url_for('static', filename='assets/logo.png') }}" alt="CloudKids Logo Placeholder">
             <h1>CloudKids Preschool Learning Hub</h1>
             <h2>Selamat datang! Berikut video untuk hari ini</h2>
-            <button id="content1" class="btn btn-danger btn-block content-button"> <!-- Use a red button for more contrast -->
+            <button id="content1" class="btn btn-danger btn-block content-button"> <!-- Use a light red button for more contrast -->
                 <img src="{{ url_for('static', filename='assets/1.png') }}" alt="Content 1">
             </button>
-            <button id="content2" class="btn btn-warning btn-block content-button"> <!-- Use a yellow button for more contrast -->
+            <button id="content2" class="btn btn-warning btn-block content-button"> <!-- Use a light orange button for more contrast -->
                 <img src="{{ url_for('static', filename='assets/2.png') }}" alt="Content 2">
             </button>
-            <button id="content3" class="btn btn-success btn-block content-button"> <!-- Use a green button for more contrast -->
+            <button id="content3" class="btn btn-success btn-block content-button"> <!-- Use a light green button for more contrast -->
                 <img src="{{ url_for('static', filename='assets/3.png') }}" alt="Content 3">
             </button>
         </div>
