@@ -17,12 +17,20 @@ df = pd.read_csv('data.csv')  # Assuming you have the original dataset available
 le.fit(df['LEARNINGSTYLE'])
 # Load a dummy dataset for content recommendation
 content_data = pd.DataFrame({
-    'Content': ['Dummy Content 1', 'Dummy Content 2', 'Dummy Content 3'],
-    'Visual': [10, 5, 15],
-    'Auditorial': [15, 10, 5],
-    'Kinesthetic': [5, 15, 10],
-    'LearningStyle': ['V', 'A', 'K']
+    'Content': ['Dummy Content 1', 'Dummy Content 2', 'Dummy Content 3', 'Dummy Content 4', 'Dummy Content 5'],
+    'Visual': [10, 5, 15, 8, 12],
+    'Auditorial': [15, 10, 5, 8, 12],
+    'Kinesthetic': [5, 15, 10, 12, 8],
+    'LearningStyle': ['V', 'A', 'K', 'V', 'A'],
+    'YouTubeLink': [
+        'https://www.youtube.com/watch?v=AjgD3CvWzS0',
+        'https://www.youtube.com/watch?v=dqTTojTija8',
+        'https://www.youtube.com/watch?v=HaEmIakO7f4',
+        'https://www.youtube.com/watch?v=WtWxOhhZWX0',
+        'https://www.youtube.com/watch?v=6_2hzRopPbQ'
+    ]
 })
+
 
 # Placeholder for user scores
 user_scores = {'Visual': 0, 'Auditorial': 0, 'Kinesthetic': 0}

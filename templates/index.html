@@ -7,6 +7,8 @@
     <title>CloudKids Learning Hub</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"> <!-- Add Poppins font -->
+    <script src="https://apis.google.com/js/api.js"></script>
+
     <style>
         body {
             background-color: #f9f9f9; /* Lighter background color */
@@ -51,6 +53,7 @@
             border: none; /* Remove border */
             padding: 0; /* Remove padding */
             transition: transform 0.2s ease-in-out; /* Add a smooth transition effect */
+            cursor: pointer; /* Change cursor to pointer for better user experience */
         }
 
         .content-button:hover {
@@ -83,16 +86,13 @@
             <img class="cloudkids-logo" src="{{ url_for('static', filename='assets/logo.png') }}" alt="CloudKids Logo Placeholder">
             <h1>CloudKids Preschool Learning Hub</h1>
             <h2>Selamat datang! Berikut video untuk hari ini</h2>
-            <button id="content1" class="btn btn-danger btn-block content-button"> <!-- Use a light red button for more contrast -->
-                <img src="{{ url_for('static', filename='assets/1.png') }}" alt="Content 1">
-            </button>
-            <button id="content2" class="btn btn-warning btn-block content-button"> <!-- Use a light orange button for more contrast -->
-                <img src="{{ url_for('static', filename='assets/2.png') }}" alt="Content 2">
-            </button>
-            <button id="content3" class="btn btn-success btn-block content-button"> <!-- Use a light green button for more contrast -->
-                <img src="{{ url_for('static', filename='assets/3.png') }}" alt="Content 3">
-            </button>
+            <div id="content1" class="content-button"></div>
+            <div id="content2" class="content-button"></div>
+            <div id="content3" class="content-button"></div>
+            <div id="content4" class="content-button"></div>
+            <div id="content5" class="content-button"></div>
         </div>
+
         <div class="col-md-6">
             <h2>Learning Style Prediction</h2>
             <p id="learningStyle">Learning Style: -</p>
@@ -106,6 +106,9 @@
             <ul id="recommendation">
                 <li>-</li>
             </ul>
+
+            <!-- Updated iframe container -->
+            <div id="youtubePlayer"></div>
         </div>
     </div>
 </div>
@@ -115,46 +118,83 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 
 <script>
-    $(document).ready(function () {
-        var userScores = {'Visual': 0, 'Auditorial': 0, 'Kinesthetic': 0};
+    // Load YouTube API client
+    gapi.load('client', function () {
+        gapi.client.init({
+            apiKey: 'AIzaSyAkE_03-zFfp5TAp6cDTmCb9rTPKmZA5pY', // Replace with your YouTube API key
+            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest']
+        }).then(function () {
+            console.log('YouTube API client initialized');
+            // Initialize userScores to zeros
+            var userScores = {'Visual': 0, 'Auditorial': 0, 'Kinesthetic': 0};
+            var isVideoClicked = false; // Flag to track user interaction
 
-        function updateScores(content) {
-            $.ajax({
-                type: 'POST',
-                contentType: 'application/json;charset=UTF-8',
-                data: JSON.stringify({'content': content}),
-                url: 'http://127.0.0.1:5000/update_scores',
-                success: function (response) {
-                    // Update the userScores with the received values
-                    userScores = response.current_scores;
-
-                    $('#learningStyle').text('Learning Style: ' + response.learning_style);
-                    var recommendationList = response.recommendation.map(function (item) {
-                        return '<li>' + item + '</li>';
-                    });
-                    $('#recommendation').html(recommendationList.join(''));
-
-                    // Update the displayed scores
-                    $('#visualScore').text(userScores.Visual);
-                    $('#auditorialScore').text(userScores.Auditorial);
-                    $('#kinestheticScore').text(userScores.Kinesthetic);
-                }
-            });
-        }
-
-        $('#content1').click(function () {
-            updateScores('Dummy Content 1');
-        });
-
-        $('#content2').click(function () {
-            updateScores('Dummy Content 2');
-        });
-
-        $('#content3').click(function () {
-            updateScores('Dummy Content 3');
+            // Call updateScores after API initialization
+            updateScores('Dummy Content 1', 'AjgD3CvWzS0', 'content1', userScores, isVideoClicked);
+            updateScores('Dummy Content 2', 'dqTTojTija8', 'content2', userScores, isVideoClicked);
+            updateScores('Dummy Content 3', 'HaEmIakO7f4', 'content3', userScores, isVideoClicked);
+            updateScores('Dummy Content 4', 'WtWxOhhZWX0', 'content4', userScores, isVideoClicked);
+            updateScores('Dummy Content 5', '6_2hzRopPbQ', 'content5', userScores, isVideoClicked);
         });
     });
+
+    // Function to get video details using YouTube API
+    function getVideoDetails(videoId, callback) {
+        gapi.client.youtube.videos.list({
+            part: 'snippet',
+            id: videoId
+        }).then(function (response) {
+            callback(response.result.items[0].snippet);
+        }, function (error) {
+            console.error('Error fetching video details:', error);
+        });
+    }
+
+    function updateScores(content, youtubeVideoId, buttonId, userScores, isVideoClicked) {
+        getVideoDetails(youtubeVideoId, function (videoDetails) {
+            // Embed YouTube video thumbnail as the button
+            var thumbnailUrl = videoDetails.thumbnails.medium.url;
+            $('#' + buttonId).html('<a href="https://www.youtube.com/watch?v=' + youtubeVideoId + '" target="_blank"><img src="' + thumbnailUrl + '" alt="Video Thumbnail"></a>');
+
+            // Add a click event listener to the video button
+            $('#' + buttonId).on('click', function () {
+                // Set the flag to true when the button is clicked
+                isVideoClicked = true;
+
+                // Perform the AJAX request when the button is clicked
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json;charset=UTF-8',
+                    data: JSON.stringify({'content': content}),
+                    url: 'http://127.0.0.1:5000/update_scores',
+                    success: function (response) {
+                        // Update the userScores with the received values only if the video is clicked
+                        if (isVideoClicked) {
+                            userScores.Visual = response.current_scores.Visual;
+                            userScores.Auditorial = response.current_scores.Auditorial;
+                            userScores.Kinesthetic = response.current_scores.Kinesthetic;
+
+                            $('#learningStyle').text('Learning Style: ' + response.learning_style);
+                            var recommendationList = response.recommendation.map(function (item) {
+                                return '<li>' + item + '</li>';
+                            });
+                            $('#recommendation').html(recommendationList.join(''));
+
+                            // Update the displayed scores
+                            $('#visualScore').text(userScores.Visual);
+                            $('#auditorialScore').text(userScores.Auditorial);
+                            $('#kinestheticScore').text(userScores.Kinesthetic);
+                        }
+                    }
+                });
+            });
+        });
+    }
 </script>
+
+<!-- Include YouTube Data API script -->
+<script src="https://apis.google.com/js/api.js"></script>
+
 
 </body>
 </html>
