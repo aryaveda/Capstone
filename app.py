@@ -73,7 +73,7 @@ def update_scores():
     predicted_class = le.inverse_transform([predicted_probabilities.argmax()])[0]
 
     # Get content recommendation based on learning style
-    recommendation = get_recommendation(predicted_class)
+    recommendation = get_fresh_recommendation(predicted_class)
 
     # Send back the predicted learning style, recommendation, and current scores
     response_data = {
@@ -83,6 +83,20 @@ def update_scores():
     }
 
     return jsonify(response_data)
+@app.route('/get_initial_recommendation', methods=['GET'])
+def get_initial_recommendation():
+    initial_recommendation = get_fresh_recommendation('V')  # Assuming 'V' as the default learning style
+    response_data = {'initial_recommendation': initial_recommendation}
+    return jsonify(response_data)
+
+# Function to get fresh content recommendation based on learning style
+def get_fresh_recommendation(learning_style):
+    # You can modify this function to fetch recommendations from a database or external API.
+    # For simplicity, we'll use a predefined list of fresh content.
+    fresh_content = content_data.sample(n=3)  # Sample 3 random items for variety
+    recommendation = fresh_content['Content'].tolist()
+    return recommendation
+
 
 # ... (remaining code)
 

@@ -94,24 +94,21 @@
         </div>
 
         <div class="col-md-6">
-            <h2>Learning Style Prediction</h2>
-            <p id="learningStyle">Learning Style: -</p>
-            <h3>Current Scores</h3>
-            <ul id="currentScores">
-                <li>Visual: <span id="visualScore">0</span></li>
-                <li>Auditorial: <span id="auditorialScore">0</span></li>
-                <li>Kinesthetic: <span id="kinestheticScore">0</span></li>
-            </ul>
-            <h3>Recommended Content</h3>
-            <ul id="recommendation">
-                <li>-</li>
-            </ul>
-
-            <!-- Updated iframe container -->
-            <div id="youtubePlayer"></div>
-        </div>
-    </div>
+            <h3>Learning Style Prediction</h3>
+<p id="learningStyle">Learning Style: -</p>
+<h3>Current Scores</h3>
+<ul id="currentScores">
+    <li>Visual: <span id="visualScore">0</span></li>
+    <li>Auditorial: <span id="auditorialScore">0</span></li>
+    <li>Kinesthetic: <span id="kinestheticScore">0</span></li>
+</ul>
+<h3>Recommended Content</h3>
+<div id="recommendation" class="d-flex flex-wrap">
+    <!-- Recommended content will be dynamically added here -->
 </div>
+
+<!-- Updated iframe container -->
+<div id="youtubePlayer"></div>
 
 <!-- Use the full version of jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -190,6 +187,60 @@
             });
         });
     }
+
+    // Update the recommended content section with clickable buttons
+    function updateRecommendedContent(recommendation) {
+        var recommendationList = recommendation.map(function (content, index) {
+            var thumbnailUrl = getThumbnailUrl(content);  // Function to get YouTube thumbnail URL
+            return '<div class="mr-3 mb-3">' +
+                '<button class="content-button" onclick="handleContentClick(\'' + content + '\', \'' + getVideoLink(content) + '\')">' +
+                '<img src="' + thumbnailUrl + '" alt="Thumbnail for ' + content + '">' +
+                '</button>' +
+                '<p>' + content + '</p>' +
+                '</div>';
+        });
+        $('#recommendation').html(recommendationList.join('<br>')); // Separate by a new line
+    }
+
+    // Function to get YouTube thumbnail URL for a given content
+    function getThumbnailUrl(content) {
+        var videoLink = getVideoLink(content);
+        var videoId = getVideoIdFromLink(videoLink);
+        return 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
+    }
+
+    // Function to get YouTube link for a given content
+    function getVideoLink(content) {
+        return content_data.loc[content_data['Content'] == content, 'YouTubeLink'].values[0];
+    }
+
+    // Function to extract video ID from YouTube link
+    function getVideoIdFromLink(link) {
+        var match = link.match(/[?&]v=([^&]+)/);
+        return match ? match[1] : null;
+    }
+    // Handle click event for recommended content
+    function handleContentClick(content) {
+    // Add your logic here for what happens when a recommended content is clicked
+    console.log('User clicked on: ' + content);
+    // You may want to open the video in a modal, redirect to a new page, etc.
+}
+
+    // Call the updateRecommendedContent function when the page loads
+    $(document).ready(function () {
+    // Retrieve the initial recommendation from the server
+    $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/get_initial_recommendation',  // Adjust the URL to match your Flask route
+        success: function (response) {
+            // Update the recommended content based on the server response
+            updateRecommendedContent(response.initial_recommendation);
+        },
+        error: function (error) {
+            console.error('Error fetching initial recommendation:', error);
+        }
+    });
+});
 </script>
 
 <!-- Include YouTube Data API script -->
