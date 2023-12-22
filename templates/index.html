@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,65 +12,77 @@
 
     <style>
         body {
-            background-color: #f9f9f9; /* Lighter background color */
-            color: #333; /* Text color */
-            font-family: 'Poppins', sans-serif; /* Use Poppins font */
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+        .landing-page {
+    height: 100vh;
+    background: url("{{ url_for('static', filename='assets/kinder-small.jpg') }}") center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+}
+        .landing-content {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
         }
 
+        #getStartedButton {
+            margin-top: 20px;
+        }
+
+        .main-content {
+            padding: 50px;
+        }
         .container {
-            background-color: #fff; /* White background color */
+            background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             padding: 20px;
             margin-top: 50px;
         }
 
-        .row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center; /* Align items vertically in the center */
-        }
-
-        .col-md-6 {
-            flex: 0 0 48%;
-        }
-
         .cloudkids-logo {
-            width: 100px; /* Adjust the size of the logo */
+            width: 100px;
             height: auto;
-            margin-right: 20px; /* Add space between the logo and text */
+            margin-right: 20px;
         }
 
         h1 {
-            color: #f05454; /* Light Red color */
-            font-weight: bold; /* Make the title bold */
-            margin-bottom: 20px; /* Add space between the title and content */
-            text-align: center; /* Center the title */
-            font-size: 2.5em; /* Increase font size */
+            color: #f05454;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2.5em;
         }
 
         .content-button {
             margin-top: 10px;
-            border: none; /* Remove border */
-            padding: 0; /* Remove padding */
-            transition: transform 0.2s ease-in-out; /* Add a smooth transition effect */
-            cursor: pointer; /* Change cursor to pointer for better user experience */
+            border: none;
+            padding: 0;
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
         }
 
         .content-button:hover {
-            transform: scale(1.04); /* Enlarge the button on hover */
+            transform: scale(1.04);
         }
 
         .content-button img {
-            width: 100%; /* Make image fill the button */
-            border-radius: 10px; /* Add border radius to image */
+            width: 100%;
+            border-radius: 10px;
         }
 
         #recommendation,
         #currentScores {
             list-style-type: none;
             padding: 0;
-            color: #777; /* Light text color for recommendation and scores */
+            color: #777;
         }
 
         #recommendation li,
@@ -78,38 +91,98 @@
         }
     </style>
 </head>
+
 <body>
-
-<div class="container mt-5">
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <img class="cloudkids-logo" src="{{ url_for('static', filename='assets/logo.png') }}" alt="CloudKids Logo Placeholder">
-            <h1>CloudKids Preschool Learning Hub</h1>
-            <h2>Selamat datang! Berikut video untuk hari ini</h2>
-            <div id="content1" class="content-button"></div>
-            <div id="content2" class="content-button"></div>
-            <div id="content3" class="content-button"></div>
-            <div id="content4" class="content-button"></div>
-            <div id="content5" class="content-button"></div>
+    <section class="landing-page">
+        <div class="landing-content">
+            <h1>Welcome to CloudKids Learning Hub</h1>
+            <p>An integrated platform designed to enhance preschool education for young learners.</p>
+            <button id="getStartedButton" class="btn btn-primary btn-lg">Get Started</button>
         </div>
+    </section>
+    <!-- Navigation Bar Header -->
+    <!-- Navigation Bar Header -->
+    <div id="main-content" class="main-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='assets/logo.png') }}" width="30" height="30" alt="CloudKids Logo">
+        CloudKids Learning Hub
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#aboutUs">About Us</a>
+            </li>
+            <!-- Add additional navigation items as needed -->
+        </ul>
+    </div>
+</nav>
 
-        <div class="col-md-6">
-            <h3>Learning Style Prediction</h3>
-<p id="learningStyle">Learning Style: -</p>
-<h3>Current Scores</h3>
-<ul id="currentScores">
-    <li>Visual: <span id="visualScore">0</span></li>
-    <li>Auditorial: <span id="auditorialScore">0</span></li>
-    <li>Kinesthetic: <span id="kinestheticScore">0</span></li>
-</ul>
-<h3>Recommended Content</h3>
-<div id="recommendation" class="d-flex flex-wrap">
-    <!-- Recommended content will be dynamically added here -->
+<!-- About Us Section -->
+<section id="aboutUs" class="mt-5">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>
+            "CloudKids Preschool Learning Hub" is an integrated cloud-based platform designed to enhance the preschool education experience for both educators and young learners. It is a groundbreaking project aimed at addressing the challenges faced by parents in providing effective early childhood education at home. Fueled by the observed confusion among new mothers in independently delivering age-appropriate lessons. It offers a range of features and tools that make teaching more efficient, engaging, and accessible, fostering a collaborative learning environment.
+        </p>
+        <p>
+            This innovative project incorporates a user-friendly interface, offering a diverse range of educational content, interactive activities, and personalized learning plans tailored to each child's developmental stage. Through intuitive features such as virtual classrooms, real-time messaging, and adaptive learning algorithms (based on each child's progress and learning style), parents can actively participate in their child's education while monitoring progress.
+        </p>
+    </div>
+</section>
+
+    <div class="container mt-5">
+        <img class="cloudkids-logo" src="{{ url_for('static', filename='assets/logo.png') }}" alt="CloudKids Logo Placeholder">
+        <h1>CloudKids Preschool Learning Hub</h1>
+        <h2>Selamat datang! Berikut video untuk hari ini</h2>
+    
+        <div class="row">
+            <div class="col-md-4">
+                <div id="content1" class="content-button"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="content2" class="content-button"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="content3" class="content-button"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="content4" class="content-button"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="content5" class="content-button"></div>
+            </div>
+        </div>
+    
+        <h3>Learning Style Prediction</h3>
+        <p id="learningStyle">Learning Style: -</p>
+        <h3>Current Scores</h3>
+        <ul id="currentScores">
+            <li>Visual: <span id="visualScore">0</span></li>
+            <li>Auditorial: <span id="auditorialScore">0</span></li>
+            <li>Kinesthetic: <span id="kinestheticScore">0</span></li>
+        </ul>
+        <h3>Recommended Content</h3>
+        <div id="recommendation">
+            <!-- Recommended content will be dynamically added here -->
+        </div>
+    
+        <!-- Updated iframe container -->
+        <div id="youtubePlayer"></div>
+    </div>
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container text-center">
+            <p>&copy; 2023 CloudKids Learning Hub. All rights reserved.</p>
+        </div>
+    </footer>
 </div>
-
-<!-- Updated iframe container -->
-<div id="youtubePlayer"></div>
-
 <!-- Use the full version of jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
@@ -246,6 +319,16 @@
 <!-- Include YouTube Data API script -->
 <script src="https://apis.google.com/js/api.js"></script>
 
-
+<script>
+    $(document).ready(function () {
+        // Scroll to main content when "Get Started" button is clicked
+        $('#getStartedButton').on('click', function () {
+            $('.main-content').fadeIn('slow'); // You can use other effects like slideDown, etc.
+            $('html, body').animate({
+                scrollTop: $('.main-content').offset().top
+            }, 'slow');
+        });
+    });
+</script>
 </body>
 </html>
