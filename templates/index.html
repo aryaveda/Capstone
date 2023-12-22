@@ -127,20 +127,28 @@
 <!-- About Us Section -->
 <section id="aboutUs" class="mt-5">
     <div class="container">
-        <h2>About Us</h2>
-        <p>
-            "CloudKids Preschool Learning Hub" is an integrated cloud-based platform designed to enhance the preschool education experience for both educators and young learners. It is a groundbreaking project aimed at addressing the challenges faced by parents in providing effective early childhood education at home. Fueled by the observed confusion among new mothers in independently delivering age-appropriate lessons. It offers a range of features and tools that make teaching more efficient, engaging, and accessible, fostering a collaborative learning environment.
-        </p>
-        <p>
-            This innovative project incorporates a user-friendly interface, offering a diverse range of educational content, interactive activities, and personalized learning plans tailored to each child's developmental stage. Through intuitive features such as virtual classrooms, real-time messaging, and adaptive learning algorithms (based on each child's progress and learning style), parents can actively participate in their child's education while monitoring progress.
-        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Add an image placeholder with a rounded border -->
+                <img src="{{ url_for('static', filename='assets/kids2.jpg') }}" class="img-fluid rounded-lg" alt="About Us Image">
+            </div>
+            <div class="col-md-6">
+                <h2>About Us</h2>
+                <p>
+                    "CloudKids Preschool Learning Hub" is an integrated cloud-based platform designed to enhance the preschool education experience for both educators and young learners. It is a groundbreaking project aimed at addressing the challenges faced by parents in providing effective early childhood education at home. Fueled by the observed confusion among new mothers in independently delivering age-appropriate lessons. It offers a range of features and tools that make teaching more efficient, engaging, and accessible, fostering a collaborative learning environment.
+                </p>
+                <p>
+                    This innovative project incorporates a user-friendly interface, offering a diverse range of educational content, interactive activities, and personalized learning plans tailored to each child's developmental stage. Through intuitive features such as virtual classrooms, real-time messaging, and adaptive learning algorithms (based on each child's progress and learning style), parents can actively participate in their child's education while monitoring progress.
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 
     <div class="container mt-5">
         <img class="cloudkids-logo" src="{{ url_for('static', filename='assets/logo.png') }}" alt="CloudKids Logo Placeholder">
-        <h1>CloudKids Preschool Learning Hub</h1>
-        <h2>Selamat datang! Berikut video untuk hari ini</h2>
+        <h1>POPULAR COURSES</h1>
+        <h2>Here are our courses</h2>
     
         <div class="row">
             <div class="col-md-4">
